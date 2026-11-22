@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宣和进士·第一卷 释褐</title>
+<style>
+:root{
+  --paper:#f3ead6; --paper2:#faf4e4; --ink:#2e2a22; --ink2:#5c5443;
+  --line:#b9a985; --accent:#8c3b2e; --accent2:#4a6b5d; --gold:#a8843e;
+  --warn:#9a2f26; --shadow:rgba(60,48,30,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",STSong,SimSun,serif;
+  background:#d9cdb2;
+  background-image:radial-gradient(circle at 20% 10%,#e6dcc4 0,transparent 45%),radial-gradient(circle at 85% 80%,#e9dfc8 0,transparent 50%);
+  color:var(--ink); min-height:100vh; padding:16px; line-height:1.6;
+}
+.wrap{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:250px 1fr 260px;gap:14px;align-items:start}
+.panel{background:var(--paper);border:1px solid var(--line);box-shadow:2px 3px 0 var(--shadow);padding:14px;position:relative}
+.panel::before{content:"";position:absolute;inset:4px;border:1px solid rgba(185,169,133,.45);pointer-events:none}
+.panel h2{font-size:19px;letter-spacing:3px;color:var(--accent);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:10px;font-weight:600}
+
+/* 顶栏 */
+.top{grid-column:1/-1;background:var(--paper2);border:1px solid var(--line);box-shadow:2px 3px 0 var(--shadow);padding:10px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.top .title{font-size:26px;letter-spacing:6px;color:var(--accent);font-weight:700}
+.top .sub{font-size:14px;color:var(--ink2);letter-spacing:2px}
+.top .date{font-size:18px;color:var(--ink);letter-spacing:2px}
+.top .date b{color:var(--accent);font-size:22px}
+.top .btns{display:flex;gap:8px}
+button{font-family:inherit;cursor:pointer}
+.tbtn{background:var(--paper);border:1px solid var(--line);color:var(--ink2);padding:5px 12px;font-size:16px;letter-spacing:1px}
+.tbtn:hover{border-color:var(--accent);color:var(--accent)}
+.tbtn:disabled{opacity:.4;cursor:not-allowed}
+
+/* 人物立绘 */
+.portrait{width:100%;height:250px;background:#e4d5b4;border:1px solid var(--line);display:block;object-fit:cover;object-position:center 12%}
+.pname{text-align:center;font-size:22px;letter-spacing:3px;margin:8px 0 2px}
+.pmeta{text-align:center;font-size:13px;color:var(--ink2);letter-spacing:1px}
+.label{font-size:13px;color:var(--ink2);letter-spacing:1px;margin:12px 0 4px;border-left:3px solid var(--accent);padding-left:6px}
+
+/* 数值 */
+.row{display:flex;align-items:center;gap:6px;font-size:14px;margin:5px 0}
+.row .nm{width:34px;flex:none;color:var(--ink)}
+.row .bar{flex:1;height:8px;background:#ddd0b2;border:1px solid var(--line);position:relative;overflow:hidden}
+.row .fill{height:100%;background:var(--accent2);transition:width .35s}
+.row .fill.low{background:var(--warn)}
+.row .vl{width:28px;text-align:right;font-weight:700;color:var(--ink)}
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.res{background:rgba(255,255,255,.35);border:1px solid var(--line);padding:5px 7px;font-size:14px}
+.res b{display:block;font-size:18px;color:var(--accent);margin-top:2px}
+.res-tip{position:relative;z-index:20;cursor:help}
+.res-tip:hover,.res-tip:focus{border-color:var(--gold);outline:none}
+.res-tip .tip{display:none;position:absolute;left:calc(100% + 6px);top:-2px;width:238px;background:var(--paper2);border:1px solid var(--gold);box-shadow:3px 4px 0 var(--shadow);padding:8px 10px;font-size:13px;line-height:1.6;text-align:left;color:var(--ink);z-index:60}
+.res-tip:hover .tip,.res-tip:focus .tip{display:block}
+.res-tip .tip em{display:block;font-style:normal;font-weight:700;color:var(--accent);letter-spacing:1px;border-bottom:1px dotted var(--line);padding-bottom:4px;margin-bottom:4px}
+.res-tip .tip>span{display:block}
+.res-tip .tip b{display:inline;font-size:13px;color:var(--accent);margin-top:0}
+.res-tip .tip .tip-net{border-top:1px dotted var(--line);margin-top:4px;padding-top:4px}
+.res-tip .tip small{display:block;font-size:12px;color:var(--ink2);border-top:1px dotted var(--line);margin-top:5px;padding-top:5px}
+.talent{display:flex;justify-content:space-between;font-size:14px;padding:3px 0;border-bottom:1px dotted var(--line)}
+
+/* 主区 */
+.main{min-height:640px;display:flex;flex-direction:column}
+.turnbar{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:12px;font-size:16px;color:var(--ink2)}
+.ap{color:var(--accent);font-weight:700}
+.dossier{background:var(--paper2);border:1px solid var(--line);padding:18px 20px;flex:1;position:relative}
+.dossier::after{content:"卷";position:absolute;right:10px;top:6px;font-size:60px;color:rgba(140,59,46,.06);font-weight:700}
+.ev-cat{display:inline-block;font-size:13px;letter-spacing:2px;color:var(--gold);border:1px solid var(--gold);padding:1px 8px;margin-bottom:8px}
+.ev-title{font-size:26px;letter-spacing:3px;color:var(--ink);margin-bottom:6px}
+.ev-meta{font-size:14px;color:var(--ink2);border-bottom:1px dashed var(--line);padding-bottom:8px;margin-bottom:14px;letter-spacing:1px}
+.ev-text{font-size:18px;line-height:2.1;text-indent:2em;color:#3b352a;min-height:150px;letter-spacing:.5px}
+.ev-text::first-letter{color:var(--accent);font-size:22px}
+.choices{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+.choices .hint{font-size:14px;color:var(--ink2);margin-bottom:8px;letter-spacing:1px}
+.choice{display:block;width:100%;text-align:left;background:rgba(255,255,255,.35);border:1px solid var(--line);padding:10px 12px;margin:7px 0;font-size:17px;color:var(--ink);transition:.15s;position:relative}
+.choice:hover:not(:disabled){background:#fff8e6;border-color:var(--accent);transform:translateX(3px)}
+.choice:disabled{opacity:.45;cursor:not-allowed;text-decoration:line-through}
+.choice .k{display:inline-block;background:var(--accent);color:#fff8e6;width:20px;height:20px;line-height:20px;text-align:center;margin-right:8px;font-size:14px}
+.choice .eff{display:block;font-size:13px;color:var(--ink2);margin:4px 0 0 28px;letter-spacing:.5px}
+.choice .cond{color:var(--gold)}
+.nav{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
+.big{background:var(--accent);color:#fff8e6;border:1px solid var(--accent);padding:8px 22px;font-size:17px;letter-spacing:3px}
+.big:hover{background:#a8493a}
+.big.ghost{background:transparent;color:var(--accent)}
+
+/* 右栏事件列表 */
+.evlist{list-style:none;font-size:14px}
+.evlist li{border-bottom:1px dotted var(--line);padding:6px 4px;display:flex;justify-content:space-between;gap:6px;align-items:center}
+.evlist li span{color:var(--ink2)}
+.evlist li b{font-weight:600;color:var(--ink)}
+.tag{font-size:12px;padding:1px 5px;border:1px solid var(--line);color:var(--ink2);white-space:nowrap}
+.tag.fix{border-color:var(--accent);color:var(--accent)}
+.tag.free{border-color:var(--accent2);color:var(--accent2)}
+.tag.cond{border-color:var(--gold);color:var(--gold)}
+.doit{background:var(--paper2);border:1px solid var(--line);font-size:13px;padding:2px 6px;color:var(--accent);white-space:nowrap}
+.doit:hover{border-color:var(--accent);background:#fff8e6}
+.log{font-size:13px;color:var(--ink2);max-height:150px;overflow:auto;line-height:1.8}
+.log div{border-bottom:1px dotted rgba(185,169,133,.5);padding:1px 0}
+
+/* 弹窗 */
+.mask{position:fixed;inset:0;background:rgba(40,32,20,.5);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.mask.on{display:flex}
+.modal{background:var(--paper2);border:1px solid var(--line);box-shadow:4px 6px 0 rgba(0,0,0,.25);max-width:640px;width:100%;max-height:85vh;overflow:auto;padding:22px 26px;position:relative}
+.modal h3{font-size:24px;letter-spacing:4px;color:var(--accent);border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:14px}
+.modal .close{position:absolute;right:14px;top:12px;background:none;border:none;font-size:24px;color:var(--ink2)}
+.modal table{width:100%;border-collapse:collapse;font-size:16px}
+.modal td,.modal th{border:1px solid var(--line);padding:5px 8px;text-align:left}
+.modal th{background:rgba(140,59,46,.08);color:var(--accent)}
+.endtitle{font-size:34px;letter-spacing:8px;color:var(--accent);text-align:center;margin:10px 0}
+.endtext{text-align:center;font-size:18px;line-height:2;margin:16px 0}
+.ev-hint{text-align:center;font-size:14px;color:var(--gold);letter-spacing:1px;margin:14px 0 4px}
+.dossier.clickable{cursor:pointer}
+.dossier.clickable:hover{border-color:var(--accent)}
+.epilogue{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+.epilogue h4{font-size:16px;letter-spacing:3px;color:var(--gold);margin-bottom:8px;text-align:center}
+.epilogue p{font-size:15px;line-height:1.95;text-indent:2em;margin:6px 0;color:#3b352a}
+.gallery details{border:1px solid var(--line);background:rgba(255,255,255,.3);margin:8px 0;padding:8px 12px}
+.gallery summary{cursor:pointer;font-size:17px;color:var(--accent);letter-spacing:1px}
+.gallery .gmeta{font-size:13px;color:var(--ink2);margin:6px 0}
+.gbody{font-size:17px;line-height:2;text-indent:2em;text-align:left;margin:8px 0}
+.gallery .gbody{font-size:15px;line-height:1.9}
+.gallery .gepi p{font-size:14px;line-height:1.9;text-indent:2em;margin:5px 0}
+.unlocked{color:var(--accent2);font-size:13px}
+.gallery .locked{border:1px dashed var(--line);background:rgba(255,255,255,.18);margin:8px 0;padding:8px 12px;font-size:15px;color:var(--ink2);letter-spacing:1px}
+.footer{grid-column:1/-1;text-align:center;font-size:13px;color:var(--ink2);letter-spacing:2px;padding:6px}
+@media(max-width:1000px){.wrap{grid-template-columns:1fr}.top{grid-column:1}.footer{grid-column:1}.portrait{height:200px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><div class="title">宣和进士</div><div class="sub">第一卷 · 释褐 ｜ 两浙路 · 某县主簿</div></div>
+    <div class="date" id="dateBox"></div>
+    <div class="btns">
+      <button class="tbtn" id="btnDossier">档案</button>
+      <button class="tbtn" id="btnBag">行囊</button>
+      <button class="tbtn" id="btnHelp">规则</button>
+      <button class="tbtn" id="btnSave">存档</button>
+      <button class="tbtn" id="btnLoad">读档</button>
+      <button class="tbtn" id="btnRestart">重开</button>
+      <button class="tbtn" id="btnEndings">结局图鉴</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div id="portraitBox"></div>
+    <div class="pname">李皋 <span style="font-size:16px">字尧臣</span></div>
+    <div class="pmeta">两浙路越州人</div>
+    <div class="label">六维 · 清零即终局</div>
+    <div id="sixBox"></div>
+    <div class="label">天赋 · 自我研讨可成长</div>
+    <div id="talentBox"></div>
+    <div class="label">独立资源</div>
+    <div class="res-grid" id="resBox"></div>
+  </div>
+
+  <div class="panel main">
+    <div class="turnbar"><div id="turnInfo"></div><div class="ap" id="apInfo"></div></div>
+    <div class="dossier" id="dossier"></div>
+    <div class="nav" id="nav"></div>
+  </div>
+
+  <div class="panel">
+    <h2>事件簿</h2>
+    <div class="label" style="margin-top:0">本月待办（强制）</div>
+    <ul class="evlist" id="pendingList"></ul>
+    <div class="label">可自选（每月每类至多一次）</div>
+    <ul class="evlist" id="availList"></ul>
+    <div class="label">履历</div>
+    <div class="log" id="logBox"></div>
+  </div>
+
+  <div class="footer">宣和进士·靖康浮沉录·第一卷·释褐</div>
+</div>
+
+<div class="mask" id="mask"><div class="modal" id="modal"></div></div>
+
+<script>
+/* ============ 立绘：内嵌画像，脱离本地文件亦可显示 ============ */
+const PORTRAIT_DATA='data:image/webp;base64,'+
+'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';
+function portraitSVG(){
+  return `<img class="portrait" src="${PORTRAIT_DATA}" alt="李皋肖像">`;
+}
+
+/* ============ 事件数据（源自事件卡大纲） ============ */
+const SIXN=['民心','清议','圣眷','宦官','军心','朝望'];
+const TALN=['理政','武略','文辞','健康'];
+const RESN=['府库','兵备','私库','农民','流民','政绩'];
+const ALLN=[...SIXN,...TALN,...RESN];
+
+function E(id,title,cat,meta,text,options,portrait='main',check=null){
+  return {id,title,cat,meta,text,options,portrait,check};
+}
+const EVENTS={
+'EH-0117-01':E('EH-0117-01','释褐赴任·两浙路','固定','政和七年春·第1月｜汴京吏部→两浙路任所','新科及第，吏部注拟。榜下唱名，你被授两浙路某县主簿。同榜有人得京职，有人赴边陲，而你收拾行囊，南下赴任——两浙富庶，却是应奉局苛政如虎之地。此行无选择可择，十年根基，自踏上这条路时便已落定。',[{k:'A',label:'整装南下，赴任两浙路',eff:'',note:'开场事件，无数值变化'}]),
+
+'EH-0117-02':E('EH-0117-02','赴任接印·县衙积弊','固定','第1月·接印后｜任所县衙','前任升迁而去，留下一堆烂账：簿册颠倒，赋役不均，狱中在押二十余人多未结案。胥吏们斜眼打量这位新来的进士，等着看你第一把火烧向何处。',[
+  {k:'A',label:'雷霆整顿，先拿胥吏开刀',eff:'清议+6 民心+5 宦官−4',flag:'接印A'},
+  {k:'B',label:'宽缓三月，徐徐图之',eff:'民心+3 宦官+4 清议−4 朝望+2'},
+  {k:'C',label:'上书自陈，乞朝廷派员清账',eff:'圣眷−5 朝望+6 清议+4'}
+]),
+
+'EH-0117-03':E('EH-0117-03','士绅拜码头','固定','到任后第2月｜县衙／士绅宅','本地士绅联名投帖，邀你赴宴。帖上皆是隐田千顷、纳粟得官之辈。宴席是假，试探你对豪右的态度是真——你若低头，往后办事顺畅；你若倨傲，这县的粮与税便难收了。',[
+  {k:'A',label:'赴宴，礼数周全',eff:'宦官+5 清议−5 民心−4'},
+  {k:'B',label:'婉拒，礼尚往来',eff:'清议+5 民心+3'},
+  {k:'C',label:'当众申明不与豪右同流',eff:'清议+10 民心+6 朝望−3'}
+],'gentry'),
+
+'EH-0117-04':E('EH-0117-04','盘点县库·钱粮亏空','固定','到任后第3月｜县衙库房','库银账实不符，亏空三千贯。前任已高升，账房先生与主簿互相推诿，都说「历年如此」。这笔窟窿若不填，年终上供便过不了转运使司的关。',[
+  {k:'A',label:'追缴胥吏，勒令填补',eff:'宦官+10 民心−5 清议+3'},
+  {k:'B',label:'自掏俸禄弥补缺口',eff:'宦官+6 清议+6 民心+3'},
+  {k:'C',label:'隐瞒不报，挪东补西',eff:'宦官−2 圣眷+2 清议−4',zj:0}
+],'clerk'),
+
+'EH-0117-08':E('EH-0117-08','花石纲预征·应奉局来人','固定','每年4月固定触发｜县衙／乡野','应奉局差役持符而至，指名索奇花异石，限日办差。差役放出话来：官家要修艮岳，谁误了花石纲，谁就别想考满。而乡间为此已拆墙毁田、夫役逃亡。',[
+  {k:'A',label:'如数应办，加紧催征',eff:'圣眷+10 宦官−8 民心−12 清议−6',zj:0},
+  {k:'B',label:'拖延应付，暗中减办',eff:'民心+5 圣眷−6 宦官−2'},
+  {k:'C',label:'上书陈情，乞免本县',eff:'清议+10 民心+8 圣眷−10 朝望+4'}
+],'eunuch'),
+
+'EH-0117-12':E('EH-0117-12','秩满磨勘·去留抉择','固定','宣和元年冬·第36月｜县衙','三年秩满，磨勘转官。吏部行文至县，然能否更进一步，全凭这三年攒下的本钱：圣眷、宦官、文辞、朝望，缺一不可。也有那无甚功劳、无甚过错的，循例转官；更有看透世事者，自请辞官归去。你站在县衙阶前，逐一核对自己够得上哪一条。',[
+  {k:'A',label:'圣眷在握',cond:'圣眷 ≥ 90',condFn:s=>s.six['圣眷']>=90,out:'升官，赴京东西路任职；第二卷开启'},
+  {k:'B',label:'宦官来人',cond:'宦官 ≥ 90 且 圣眷 ≥ 80',condFn:s=>s.six['宦官']>=90&&s.six['圣眷']>=80,out:'升官，赴京东西路任职；第二卷开启'},
+  {k:'C',label:'自述陈情',cond:'文辞 ≥ 75 且 圣眷 ≥ 80',condFn:s=>s.talents['文辞']>=75&&s.six['圣眷']>=80,out:'升官，赴京东西路任职；第二卷开启'},
+  {k:'D',label:'无功无过',cond:'政绩 ≥ 2000',condFn:s=>s.res['政绩']>=2000,out:'升官，赴京东西路任职；第二卷开启'},
+  {k:'E',label:'朝中有人',cond:'朝望 ≥ 80',condFn:s=>s.six['朝望']>=80,out:'升官，赴京东西路任职；第二卷开启'},
+  {k:'F',label:'自请辞官',cond:'上述 A—E 条件均不满足',condFn:s=>![s.six['圣眷']>=90,(s.six['宦官']>=90&&s.six['圣眷']>=80),(s.talents['文辞']>=75&&s.six['圣眷']>=80),(s.res['政绩']>=2000),(s.six['朝望']>=80)].some(Boolean),out:'辞官归里，游戏结束',end:'retire'}
+],'governor'),
+
+'FREE-00':E('FREE-00','自我研讨','自由','任意月·常驻｜耗1行动点','案牍稍闲，你独坐书斋。近年来亲历的每桩事都在此刻翻涌——钱粮如何调度、刁民如何驯服、文章如何取重当世、这副身子还撑不撑得住下一个冬天。你决定趁此空隙，补一补自己的功课。',[
+  {k:'A',label:'研讨理政，精研钱谷刑名',eff:'理政+2'},
+  {k:'B',label:'研讨武略，讲习兵法战阵',eff:'武略+2'},
+  {k:'C',label:'研讨文辞，揣摩文章翰墨',eff:'文辞+2'},
+  {k:'D',label:'研讨摄生，调养气血精神',eff:'健康+2'}
+]),
+
+'FREE-01':E('FREE-01','劝课农桑','自由','任意月·常驻｜耗1行动点','春耕将起，你亲赴乡野，劝百姓垦荒、修渠、备耕。告示贴遍四乡，又召里正询问水利。一年之计在于春，田里多一分耕耘，府库便多一分底气。',[
+  {k:'A',label:'劝课农桑，鼓励垦荒',eff:'农民+100 流民−100 政绩+100'}
+]),
+
+'FREE-02':E('FREE-02','卸甲归田','自由','任意月·常驻｜耗1行动点','境内稍安，你认为养兵耗饷，不如让部分厢军解甲归农，回归田亩。军中有人怨怼，也有人欣然领了牛种而去。裁撤容易，一旦有事，再募就难了。',[
+  {k:'A',label:'裁军归农',eff:'兵备−50 农民+50'}
+]),
+
+'FREE-03':E('FREE-03','征辟厢军','自由','任意月·常驻｜耗1行动点','境内盗匪渐起，厢军额缺。你张榜募兵，将无力自存的农户编入厢军，给粮给械，教以战阵。应募者脱了农籍、换了军装，田里少一名耕者，城头多一名守卒。你掂量着这笔账。',[
+  {k:'A',label:'征辟厢军，募农为兵',eff:'兵备+100 农民−100'}
+]),
+
+'EH-0117-06':E('EH-0117-06','胥吏舞弊案','条件','政和七年冬｜县衙｜接印选A触发','你查获主簿与胥吏勾结，伪造税票、中饱私囊，赃银累计数百贯。主簿是转运使司某官的姻亲，处置轻重，你在这一案上第一次尝到「官官相护」的分量。',[
+  {k:'A',label:'依法严办，依律论罪',eff:'清议+8 民心+6 宦官+5'},
+  {k:'B',label:'革职了事，追回赃银',eff:'宦官+6 清议+3 民心+2'},
+  {k:'C',label:'留用其才，暗中控制',eff:'宦官+8 清议−5 民心−4'}
+],'clerk',s=>!!s.flags['接印A']),
+
+'EH-0117-09':E('EH-0117-09','兴修水利·河堤工程','固定','第一年六月（第6月）｜河堤工地｜固定发生','境内河堤年久失修，乡老聚于衙前，说汛期一到，两岸田庐皆成鱼鳖。修堤要钱要人，而库里的银子，每一贯都有别的去处等着。',[
+  {k:'A',label:'动用库银，大修河堤',eff:'宦官−12 民心+10 军心+3 清议+5'},
+  {k:'B',label:'征发民夫，以工代赈',eff:'民心+5 宦官−5'},
+  {k:'C',label:'上报朝廷，请求拨款',eff:'圣眷−3 朝望+5 宦官+2 民心−3'}
+],'main'),
+
+'EH-0117-11':E('EH-0117-11','岁暮赈济·常平仓','固定','每年十二月｜常平仓／粥棚｜固定发生','岁歉民饥，常平仓存粮有限，四乡流民渐聚于城下。幕僚献策：或开仓放粮，或劝富户捐输，或趁荒年募兵收流民为厢军——三条路，三种未来。',[
+  {k:'A',label:'开仓放粮，设粥棚',eff:'民心+12 宦官−12 圣眷+2 清议+6'},
+  {k:'B',label:'劝富户捐粮，官为民先',eff:'民心+7 宦官−4 清议+4'},
+  {k:'C',label:'收流民为厢军（荒年募兵）',eff:'军心+10 宦官−8 民心+4 兵备+100'}
+],'gentry'),
+
+'COND-01':E('COND-01','贿赂宦官','条件','私库≥500｜耗1行动点','宫中近侍悄悄递话：宦官要有「表示」，圣眷才能长久。你掂量私库里的银子——这笔钱送出去，换来的是宫禁奥援与天子青眼；不送，则前路的关节无人打点。',[
+  {k:'A',label:'奉上重礼，打通关节',cond:'私库 ≥ 500',condFn:s=>s.res['私库']>=500,eff:'私库−200 宦官+12 圣眷+6'}
+],'eunuch',s=>s.res['私库']>=500),
+
+'FIX-01':E('FIX-01','厢军暴动','固定','府库=0｜占1行动点','库银见底，欠饷已逾三月。厢军哗于校场，旗纛倒竖，为首者执刀立于衙前：「知县老爷，粮饷何在？」城门已被把住，市井开始逃散。',[
+  {k:'A',label:'晓谕大户纳粮',eff:'宦官−10 军心+8 民心−12 府库+2000'},
+  {k:'B',label:'出私库纳粮',eff:'军心+6 清议+4 民心+3 私库−500 府库+500'},
+  {k:'C',label:'请上级借饷，暂度危机',eff:'朝望−5 圣眷−6 军心+4 府库+500'},
+  {k:'D',label:'斩杀闹事头领',eff:'圣眷+5 清议−4 军心−8 民心−5 兵备−50'}
+],'clerk'),
+
+'FIX-02':E('FIX-02','贼寇略城','概率','15%概率｜命中即为固定事件｜兵备判定','探马急报：一股流寇夜袭县城，已破外郭，直扑县衙。你登上城楼——墙头空无一人，兵器库早已见底。若此时城中有兵，尚可一战；若兵备早已归零，则此城已无守御之力。',[
+  {k:'A',label:'沉稳应战',cond:'兵备≥300 且 军心≥60',condFn:s=>s.res['兵备']>=300&&s.six['军心']>=60,eff:'军心+10 民心+8 圣眷+8 兵备−50',out:'守城成功'},
+  {k:'B',label:'临时募兵',cond:'0<兵备<300',condFn:s=>s.res['兵备']>0&&s.res['兵备']<300,eff:'民心−8 军心+5 圣眷+5 兵备−50',out:'守城成功'},
+  {k:'C',label:'无兵可守，城破',cond:'兵备=0',condFn:s=>s.res['兵备']===0,eff:'',out:'直接游戏结束',end:'cityfall'}
+],'main'),
+
+'EH-0117-07':E('EH-0117-07','争田案·法理人情','概率','任意月｜概率20%｜县衙公堂','豪强占民田三百亩，原告持前朝旧契，被告有士绅撑腰，双方供词互驳。堂下观者云集——这一判，百姓看的是你有没有胆，士绅看的是你识不识趣。',[
+  {k:'A',label:'依法判还民田',eff:'民心+10 清议+6 宦官−3'},
+  {k:'B',label:'折中调解，各让一步',eff:'民心−2 清议−4 宦官+6'},
+  {k:'C',label:'偏袒豪强，换取捐输',eff:'宦官+10 民心−9 清议−6'}
+],'gentry'),
+
+'EH-0117-10':E('EH-0117-10','上官考察·转运使巡县','概率','十一月至次年正月｜概率50%｜县衙／驿馆','转运使司考核属县，你的政绩将定明年去留。幕僚递上一份「说项清单」：某公爱古董，某公喜金银。是据实呈报，还是打点关节？',[
+  {k:'A',label:'如实呈报，不假修饰',eff:'清议+6 朝望+3 圣眷−2 民心+3'},
+  {k:'B',label:'送礼打点，求其美言',eff:'朝望+8 宦官−8 清议−5'},
+  {k:'C',label:'虚报政绩，夸大垦田',eff:'圣眷+6 朝望+5 民心−4'}
+],'governor')
+};
+
+EVENTS['FIX-02'].forced=true;
+
+/* 按大纲补齐政绩：凡有正向政绩者统一 +100，显式 zj:0 者保持 */
+const ZJ_EVENTS=['EH-0117-02','EH-0117-03','EH-0117-04','EH-0117-06','EH-0117-07','EH-0117-08','EH-0117-09','EH-0117-10','EH-0117-11','FIX-02'];
+ZJ_EVENTS.forEach(id=>EVENTS[id].options.forEach(o=>{if(o.zj===undefined)o.zj=100}));
+EVENTS['FIX-02'].options[2].zj=0;
+
+/* ============ 游戏状态 ============ */
+/* 九张结局卡：正文与卷末语均出自《第一卷结局卡》文档 */
+const ENDINGS = {
+  "e01": {
+    "id": "e01",
+    "num": 1,
+    "name": "民变四起",
+    "meta": "类别：六维清零 ｜ 触发：民心 = 0（可由苛政抉择直接压低，或由流民 ≥ 2000 每月民心 −2 长期累积清零）｜ 判定优先级：高于一切剧情分支",
+    "body": [
+      "流民啸聚，火把连成一条赤色的长龙，把县衙的匾额照得通明。你听见城门被撞开的声音，也听见有人喊你的名字——那声调门，三年前还曾是叩头称谢的语声。你弃印而走，或死于乱民之手。案头那卷「民风淳谨」的旧册，被火舌一卷，化作黑蝶。"
+    ],
+    "epilogue": [
+      "宣和年间的天下，看似锦绣，实已蛀空。艮岳的奇石从太湖络绎北上，挽舟的丁夫倒毙于途，尸骨弃在汴水两岸；青溪的山谷里，聚众者以诛除权佞为号，一呼而千百人响应。这些都不是一县一邑之事，而是整个朝廷的挥霍与失政，在百年承平的皮囊下积成的脓疮。你只是一个被外放到此的七品县令，手中不过百里之地、数万之民，在这台巨大的帝国机器里，你是最末梢的一枚齿轮。",
+      "你以为乱民是被你逼反的。其实他们要反的，是汴京城里的艮岳，是应奉局的旗帜，是那些从未到过这里、却年年向这里索取的人。你的严苛不过是压在上面的最后一只手，而那只手，也是被上官的考绩、朝廷的催逼、军饷的亏空一步步推到这里的。你既是加害者，也是被驱使的人。把一场席卷东南的民变算在一个县令头上，是高估了你，也是高估了这朝廷尚能问责的诚意。",
+      "火烧起来的时候，你站在县衙的阶上，看见火把连成长龙，映红了半边天。那光亮里没有你的名字，他们喊的是权臣的姓名，是天子的过失，是这世道的不公。你忽然明白，自己从来不是这场戏的主角，只是一个恰好站在台前、被推到灯下的人。你有你的算计、你的苦衷、你不得不为的理由，可在时代的怒火面前，这些都轻得像灰。",
+      "史臣曰：民为邦本，本固邦宁。然本之朽，非一日之寒；其溃也，亦非一令之责。以一县之令而任天下之怨，是朝廷卸责之巧，非史笔持平之论。李皋之死，死于其时，非独死于其政。大厦将倾，一木何支？后之览者，当哀其身世之微，而无所归咎于一人也。"
+    ]
+  },
+  "e02": {
+    "id": "e02",
+    "num": 2,
+    "name": "名裂身败",
+    "meta": "类别：六维清零 ｜ 触发：清议 = 0 ｜ 判定优先级：高于一切剧情分支",
+    "body": [
+      "邸报尚未送到县衙，弹章已先到了汴京。台谏官风闻奏事，连上七疏，字字如刀：贪墨、苛政、附权、欺君。诏下，革职除名，押解回籍。沿途士林围观，指指点点，有人往你的车驾上掷烂果。你忽然想起初到任时，太学生陈东曾把你引为同道——那封信，如今成了讽刺。"
+    ],
+    "epilogue": [
+      "大宋士人最重名节，而这名节的裁判不在庙堂，在士林；不在刀兵，在口舌。台谏可以风闻奏事，不必有实据；太学生可以伏阙上书，一动便惊动圣听。宣和年间，蔡京当国，党籍屡起屡仆，今日之清流，明日便可能成了朋党。一个人的是非贤愚，往往不由其行事，而由他所站的那一方、所结的那一党来定。你初入仕途时看轻了这股力量，以为只要上官满意、案牍清白，便足以自立。",
+      "可士林的眼睛一直盯着你。你怎样断一桩案、怎样应一次差、怎样对待投书求见的落魄书生，都被人记进一本看不见的簿册。那簿册不记你的苦衷，只记你的立场。你想两头周全，结果两头都不认你：依附权贵者说你沽名，亲近清流者说你趋利。你想以治绩自明，可在这座朝廷里，治绩从来不是一个人能否立身的凭据，站队才是。",
+      "弹章到达的那一日，你正在整理三年积下的案卷。纸是白的，字是黑的，件件都经你亲手签押。可这些白纸黑字，到头来没有一件替你说得上话。解下印绶走出衙门时，街边有书生认出你，低声说：这就是那个被人称作佞臣的官。你想辩白，却发现没有人在听——士林早已替你写好了结论，其余的一切都只是注脚。",
+      "史臣曰：名者，身之符也；符毁则身辱。然宋世之士论，其权常操于党争之手，是非未必尽公，毁誉未必尽实。以一介县令而撄天下之口，犹以一叶障东流之水。李皋之名，或非真有玷，特不幸而当其冲耳。观此可知，乱世之士，身可毁，名亦可夺，所能守者，唯寸心而已。"
+    ]
+  },
+  "e03": {
+    "id": "e03",
+    "num": 3,
+    "name": "君恩断绝",
+    "meta": "类别：六维清零 ｜ 触发：圣眷 = 0 ｜ 判定优先级：高于一切剧情分支",
+    "body": [
+      "御笔朱批落到吏部：",
+      "「李某奏对不逊，挟私抗旨，着即贬岭南，限日启程。」你捧着这道诏书，站在县衙的庭院里，久久没有动。三年前你金榜题名，天子亲策，曾以为「致君尧舜」四字伸手可及。三年后你才懂得，君恩是水，可载舟，亦可覆舟——而你已经把它喝干了。"
+    ],
+    "epilogue": [
+      "天子端坐汴京深宫，距你千里。你治理的百里之地，在他眼中不过是舆图上一粒墨点；你三年的勤勉或过失，传到御前，也不过是奏疏里短短数行。可就是这寥寥数行、乃至朱笔一点，便足以定你一生的去就。宋世优待士大夫，人称与君王共治天下，然而共治云者，不过是君恩所及时的体面话。恩之来，你无从求；恩之去，你亦无从挽。",
+      "徽宗皇帝好声色、喜祥瑞，他要的是顺从与讨喜，不是犯颜直谏的臣子。你偏偏每次都要站到他的对面。你以为自己在坚守道理，可在那座宫殿里，道理从来不是最重要的东西，是否顺耳才是。你的一次次不合作，单看都有可原之处，积在一起，却成了不识趣、不安分。等到近臣的奏报一封封递进去，你在天子心中，已从可造之材变成了必须处置的麻烦。",
+      "贬谪岭南的路上，瘴气渐重。你回头望北，看不见城墙，只看见三年前那个意气风发的自己，站在殿上朗声对策。那时他相信，凭一腔直气便可致君尧舜。如今你才懂，殿上的日光再亮，也照不到岭南的瘴雨；天子的一句话，比山谷里的风还轻，却能把一个人吹到天涯。你的坚持没有错，可对的道理，未必抵得上一个皇帝的喜好。",
+      "史臣曰：君恩难恃，恃之者危。以方枘纳圆凿，其不相入也宜矣。虽然，直道非罪，所患者不择其时。人臣之进退，系于君心之一喜一怒，其命也夫！李皋之贬，非有大恶，直以不能曲意逢迎耳。观斯世之待士，可知忠直者之难容；而皇权之下，个人之升沉，真如浮尘之随风也。"
+    ]
+  },
+  "e04": {
+    "id": "e04",
+    "num": 4,
+    "name": "宦官失势",
+    "meta": "类别：六维清零 ｜ 触发：宦官 = 0 ｜ 判定优先级：高于一切剧情分支",
+    "body": [
+      "宫中的援手，说断就断了。先是内帑银两不再拨付，接着应奉局的人不再替你通风报信，最后连例行的荐举名册里，你的名字也被悄悄抹去。你这才惊觉：这三年来替你挡过风波的那些「内廷贵人」，从来不是朋友，只是一笔生意——而你，已经付不起价了。"
+    ],
+    "epilogue": [
+      "北宋末世，权柄有不在于庙堂而在于内廷者。童贯掌兵，梁师成掌诏，朱勔以花石聚敛，李彦以公田括民，皆人主所私昵，而势倾中外。一个外放县令，若想在这波谲云诡的朝局中活下去、升上去，绕不开这些宫中贵人。你起初是清高的，不屑折节；可当你第一次因宫中有人而躲过一场弹劾，第一次靠内帑银两补上亏空，便明白了一件事：在这座朝廷里，奥援不是点缀，而是硬通货。",
+      "于是你开始经营这条线，把私财一车车送进京，替他们办那些不方便明说的事。每一次，援手都如期而至：该免的免了，该压的压了。可这条线也是有毒的，它把你绑上别人的战车，让你的每一次升迁都记在他们的账上。你以为自己在借力，其实是在典当自己——而典当的当铺，是随时可以关门的一座冰山。",
+      "当你无力再付、或不肯再付时，报应来得比想象中更快。内帑断了，荐举停了，昔日登门的人一夜之间形同陌路。你这才看清：那些所谓的贵人，从未把你当作自己人，你只是他们账上一笔可以随时划去的开销。你在贬所听说，童贯后来领了枢密院事，梁师成权倾内外，朱勔的园囿比王府还阔。他们风光如故，而你已被忘得一干二净。",
+      "史臣曰：附宦者，犹附冰山；冰山虽高，日出则泮。虽然，彼宦者亦岂自由哉？其人本中山之微，因缘时会，窃人主之柄以自雄，势尽则身亦随之。以一县令而托命于此辈，是求荫于将倾之木也。李皋之失，在于不知其势之不可久；而可悲者，在于当时举朝皆以此为升迁之捷径，非独一人为之也。"
+    ]
+  },
+  "e05": {
+    "id": "e05",
+    "num": 5,
+    "name": "军心涣散",
+    "meta": "类别：六维清零 ｜ 触发：军心 = 0 ｜ 判定优先级：高于一切剧情分支",
+    "body": [
+      "校场上的旗纛倒了。不是被风吹倒，是被哗变的厢军自己拔起来的。他们围住县衙，不喊口号，只是沉默地站着——那种沉默比怒吼更可怕。你从他们眼里看到的不是仇恨，是失望：一个拖欠他们三月军饷、又克扣他们口粮的官，凭什么要他们卖命？"
+    ],
+    "epilogue": [
+      "宋世养兵，承五代之弊，募兵为业，父子相承，名为天子亲军，实则坐糜太仓。西北有西军百战之健，而京城禁军多市井游手；边镇苦于缺饷，内地困于冗费。朝廷上下，皆以裁汰虚伍、节省军费为理财之能事。你接印时麾下那支兵马，本就是这积弊中的一个小数。你把它看成账上的数目，一次次减省，看着账面渐宽，自以为得计。",
+      "可兵不是数目，是人。人有父母妻子，要吃饭穿衣，要在岁末拿到那点微薄军饷。你减的是账面，寒的是人心。那些被裁的、被欠饷的、被夺了生路的兵士，并非天生作乱之徒，他们只是和你一样，被这台机器推着走，只是他们连你这点宦海浮沉的余地都没有。当你以斩杀头领来弹压时，你以为稳住了局面，其实只是把怨气压进了更深的地底。",
+      "兵变起时，你身边没有一个人。那些人沉默地把衙门围住，不喊口号，只是等着你自己走出来。你从他们眼里看到的不是仇恨，是和你一样的疲惫与失望。那一刻你才明白，你和他们原是同一种人：都是被时代放置在各自位置上的棋子，你坐在衙门里，他们站在校场上，谁也做不得自己的主。你算得清每一笔账，却算不清这世道把人逼到何等境地。",
+      "史臣曰：兵者，国之大事，死生之地。平日视兵如刍狗，临时安望其效死？虽然，人心之散，非散于一旦，亦非散于一令。积欠者朝廷之令，冗滥者累朝之政，一县令特奉而行之耳。以天下之兵政之坏而责之一县，是犹以一指而障江河也。哀哉！"
+    ]
+  },
+  "e06": {
+    "id": "e06",
+    "num": 6,
+    "name": "孤立无援",
+    "meta": "类别：六维清零 ｜ 触发：朝望 = 0 ｜ 判定优先级：高于一切剧情分支",
+    "body": [
+      "吏部的考绩册送到你手上，末一行朱笔小字：「朝中无人，难以久任。」你盯着那六个字，忽然笑了——原来这三年的勤勉、案卷、治绩，都不及京里有没有一个人替你说话。没过多久，政敌的弹章接踵而至，无人辩白，无人说情。你被罢官论罪，押解回籍时，没有一个同僚来送。"
+    ],
+    "epilogue": [
+      "宋世选官，重磨勘，尤重荐举。一官之迁，不只看考课优劣，更要看朝中有无一人肯为你写下一句好话。举主之有无，往往胜过治绩之高下。这本是朝廷网罗人才之美意，行之既久，却成了党争的经纬：谁荐你，便等于替你站了队；你不肯依附谁，便等于得罪了所有人。你初入仕途，既非权贵子弟，又无座师奥援，本就吃亏在这无根无基四字上。",
+      "你不是没有机会。上官曾暗示你可以投帖攀附，朝中言官曾递来示好的信，内廷也有一条虽污却可用的路。你统统拒绝了，理由各不相同：不屑、怕担风险、相信治绩自会说话。治绩当然会说话，可它需要有人替它在朝堂上开口。没有举主，你的治绩就像一封没有收件人的信，写得再好，也无人拆阅。你把同榜的来信束之高阁，把上门联络的人拒之门外，还自以为清高。",
+      "等到政敌发难，你才发现自己四面都是敌人，没有一个可以替你说话的人。昔日落井下石者成了弹劾的急先锋，本可缓颊者早已被你推远。你这才懂：在这座朝廷里，一个人若不主动织网，便只能任人处置。罢官回籍的第二年，京里传来蔡京复相的消息，凡经其门下弹劾者一概不起用。你这才明白，那几道弹章背后原是有人指使，而你三年不曾经营人脉，连一个替你分辨的人都没有。",
+      "史臣曰：独木难成林，孤臣难立朝。恃才而轻士，恃政而轻援，其败也忽焉。虽然，宋之荐举，流弊已久，举主各分曹局，仕途尽入彀中，士之欲自立者，不附势则无名，既附势则失己。李皋之孤，非独其自取，亦时代之孤也。观其浮沉，可知一寒士之进退，于大国之党争，直沧海之一粟耳。"
+    ]
+  },
+  "e07": {
+    "id": "e07",
+    "num": 7,
+    "name": "城破身死",
+    "meta": "类别：独立数值触发 ｜ 触发：兵备 = 0 且遭遇「贼寇略城」（15% 概率命中即为固定事件，选 C「无兵可守，城破」）｜ 判定优先级：高于秩满磨勘",
+    "body": [
+      "贼寇的旗帜插上了城头。你站在空荡荡的城墙上，身边没有一个兵——兵备早已归零，是你一次次「卸甲归田」裁掉的。你弯弓搭箭，射出最后一箭，然后被涌上来的乱刃吞没。城破的那一刻，你终于明白：所谓「府库略有结余」，是用命换来的。"
+    ],
+    "epilogue": [
+      "宣和之末，天下已隐隐有乱象。青溪、山东的啸聚时起时仆，官府疲于奔命；朝廷却仍在计较燕云的得失、岁币的增减。一座偏远县城的守备，在这盘大棋里，本来就无足轻重。你从接印时手里的那点兵马，被你一次次裁减，账面越来越好看，考绩册上也添了几句善理财的赞语。你以为这是为朝廷分忧，却不知你抽掉的，是这座城最后一道屏障。",
+      "贼寇至城下时，你才想起，守备不是账上的数目，而是城头的值守、街巷的巡逻、夜里那盏不肯熄的灯笼。你慌忙募兵，召来的不过是些握惯锄头的农夫，连弓都拉不开，又如何挡得住久经战阵的盗匪？城破那一刻，你握着那把从未用过的弓，想起兵马满额时校场上整齐的队列。那时你嫌他们费粮；如今你愿以全部身家换回他们，却再也不能。",
+      "乱刃加身之际，你听见城中百姓的哭喊。他们和你一样，从未做过什么大恶，却被这世道推到了刀口之下。你这时才明白，你和他们原是同一条船上的人：船漏了，你以为补一补舱底就能行，却不知整条船早已年久失修。你的精明与算计，在这倾覆之前显得那样可笑而可怜。你不是英雄，也不是罪魁，只是一个没能守住自己那一小方天地的小官。",
+      "史臣曰：备豫不虞，国之常经。苟安目前之省而忘眉睫之患，及其亡也，虽悔何追。虽然，城之破，非一令之罪；备之弛，乃累朝之积。城破的消息传到汴京时，朝廷正忙着交割燕京，兵部复核拖了半年，结论只剩守土不力四字。家中老仆收殓你的遗物，只找到一只旧箭囊和半本未批完的案卷，埋在族田边上，没有碑。数年后金人南下，比这更大的城一座座陷落，这一座早已无人记起。"
+    ]
+  },
+  "e08": {
+    "id": "e08",
+    "num": 8,
+    "name": "辞官归里",
+    "meta": "类别：卷末结局 ｜ 触发：第 36 月秩满磨勘，A—E 五项条件均不满足，择 F「自请辞官」｜ 结果：游戏结束",
+    "body": [
+      "你把县印端端正正地放在案上，起身，拂了拂官袍上的灰。没有锣鼓，没有送行的百姓，也没有上调的文书。你走出衙门，回头看了一眼那块「两浙路某县」的匾额——三年了，它旧了，你也老了。你终于可以回家了。"
+    ],
+    "epilogue": [
+      "你想起赴任前族叔祖李惟简的话：官场如逆旅，能进固好，知退亦贤。那时你不以为然，如今却在辞呈上写得心平气和。你没有等到升迁文书，条条路都不通，于是选了最后一条：走。辞官的理由说得体面——年迈倦游，乞归故里侍奉宗族；真实的原因只有你自己知道：你看清了这座朝廷。花石纲还在往汴京运，艮岳日日增高，青溪、山东的乱象隐隐可闻；朝堂上，蔡京、童贯之徒炙手可热，清流却一个个被贬黜。",
+      "你忽然明白，再升一级，不过是更早地卷入一场倾覆。这一年你不过二十余岁，本该建功立业，却已看破这世的把戏。你曾以为凭一腔才学可以有所作为，三年下来才知道，这座朝廷给寒门士子的位置，不过是让它替自己分担骂名、承受损失。既然补不了漏船，至少不在船沉时站在甲板上。你悄然抽身，像从一场正在坍塌的梦里醒来。",
+      "回到越州那年冬天，你在族田边租了几亩地，读书，教族中子弟识字。旧日同僚路过，谈起京中的事，你只是听，不接口。有人替你惋惜，说以你的才具本该做得更高。你笑笑，指着窗外的腊梅说：花开得好，也要有命看才行。你以为退到江湖之远便可躲开风雨，可时代的洪流并不因你退隐而绕开你，它只是从远处漫过来。",
+      "史臣曰：知难而退，明哲保身。非无才也，时不可为也。然独善其身者，其心亦苦。宣和七年金人南下，靖康元年汴京被围，消息一阵阵传来，你只是关起门读书。族中子弟激昂地说要赴京勤王，你看着他们年轻的面孔，想起当年那个朗声对策的自己，欲言又止。后来南宋南渡，有人荐你出山，你以年老推辞。你不是不忠，只是太清楚：一座已经倾覆的屋子，补一扇窗没有意义。你能保全的，也只有自己这一身而已。"
+    ]
+  },
+  "e09": {
+    "id": "e09",
+    "num": 9,
+    "name": "升迁京东西路",
+    "meta": "类别：卷末结局（本卷通关） ｜ 触发：第 36 月秩满磨勘，择 A「圣眷在握」／B「宦官来人」／C「自述陈情」／D「无功无过」／E「朝中有人」任一项 ｜ 结果：升官，赴京东西路任职，第二卷开启，不因渠道不同而变化",
+    "body": [
+      "吏部的文书到了：",
+      "「越州县主簿李皋，秩满考绩称职，迁京东西路某县，着即赴任。」你接过文书，指尖有些发颤。三年了，从初入仕途的惶惑，到如今独当一面，你终于熬过了第一道关口。收拾行囊时，你最后看了一眼县衙的庭院——那棵你亲手栽的槐树，已经长得比人高了。"
+    ],
+    "epilogue": [
+      "三年磨勘，尘埃落定。你或许凭的是天子的看重，或许凭的是宫中奥援，或许凭的是一纸打动汴京的文章，或许凭的是实打实的治绩，又或许只是朝中有人替你写了一句好话。渠道不同，结果却一样：你要离开两浙路，赴京东西路任职了。吏部文书送到手上，你指尖有些发颤。三年了，从初入仕途的惶惑到独当一面，你终于熬过第一道关口，以为从此掌握了命运。",
+      "北上途中，你路过汴京，远远望见艮岳的轮廓。太湖石还在往里运，花石纲的船队首尾相接；童贯的军队从西北调来，说是要联合金人夹攻辽国。酒肆里有人说，金人已经灭了辽，下一步就要南下。你听着，心里掠过一丝不安，却又按了下去——那是朝廷的事，与你一个刚升迁的县令何干？你只想着新任所的官邸是否宽敞。你不知道，这些风声正是几年后吞没王朝的风暴的前奏。",
+      "你在县衙槐树下栽下的那棵树，是不会跟你走的。它留在这里，见证你最初的三年；前方还有新的案卷、新的上官、新的抉择在等你。你不知道的是，距离靖康元年只剩六年。你以为自己在一步步向上攀爬，其实只是被时代推着，向风暴中心又靠近了一程。你的升迁、你的抱负、你精心经营的一切，在即将到来的倾覆面前，都显得渺小而不足道。",
+      "史臣曰：三年一考，仕途之常；然升迁非终点，乃新一轮浮沉之始。方其志得意满之时，天下之大患已伏于眉睫之间。许多年后，你在京东西路的官署里，偶尔还会想起越州那棵槐树。宣和七年冬，金兵两路南下，你被调往前线督运粮草，终于明白，这一卷末尾的升官，不过是把你从一场缓慢的沉沦推进一场急速的风暴。你带在身边的，只有那半本旧案卷——历史不记得一个小官的升沉，可你仍要走完自己的路。"
+    ]
+  }
+};
+const DIM_END={'民心':'e01','清议':'e02','圣眷':'e03','宦官':'e04','军心':'e05','朝望':'e06'};
+const ENDING_UNLOCK_KEY='xuanhe-endings';
+let S,current=null,mode='play',currentEnding=null,endingStage='body';
+function resetEndingView(){currentEnding=null;endingStage='body'}
+
+function fresh(){
+  return {month:1,ap:2,
+    six:Object.fromEntries(SIXN.map(n=>[n,60])),
+    talents:Object.fromEntries(TALN.map(n=>[n,50])),
+    res:{府库:1000,兵备:500,私库:100,农民:2000,流民:1000,政绩:0},
+    flags:{},usedFree:false,usedCond:false,doneProbs:[],
+    pending:['EH-0117-01','EH-0117-02'],
+    rolls:{},log:[],hits:0,over:false,ending:null};
+}
+const ERA=y=>y===1117?'政和七年':y===1118?'重和元年':y===1119?'宣和元年':String(y);
+const MN=['正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+const SEASON=m=>m<=3?'春':m<=6?'夏':m<=9?'秋':'冬';
+
+/* 每月固定事件至多两项：剧情／月份固定优先，触发型固定满额则让位次月 */
+const FIXED_IDS=Object.values(EVENTS).filter(e=>e.cat==='固定'||e.forced||e.id==='FIX-01').map(e=>e.id);
+function fixedCount(){return S.pending.filter(id=>FIXED_IDS.includes(id)).length}
+function addFixed(id){
+  if(fixedCount()>=2)return false;
+  if(!S.pending.includes(id))S.pending.push(id);
+  return true;
+}
+function rollMonth(){
+  const m=(S.month-1)%12+1;
+  const novToJan=[11,12,1].includes(m);
+  S.rolls={eh07:Math.random()<0.2,eh10:novToJan&&Math.random()<0.5,hit:Math.random()<0.15};
+  if(S.res['府库']<=0)addFixed('FIX-01');
+  if(S.rolls.hit)addFixed('FIX-02');
+}
+
+/* ============ 次月结算预估：与 nextMonth 共用同一套算法 ============ */
+function fmtDelta(n){return n===0?'±0':(n>0?'+':'−')+Math.abs(n)}
+function monthForecast(){
+  const income=Math.round((S.res['农民']||0)*0.5);
+  const cost=S.res['兵备']||0;
+  const net=income-cost;
+  const refugees=Math.min(3000,(S.res['流民']||0)+150);
+  return {income,cost,net,treasury:(S.res['府库']||0)+net,private:(S.res['私库']||0)+30,refugees,moraleDrop:refugees>=2000};
+}
+function treasuryTipHTML(){
+  const f=monthForecast();
+  return `<span class="tip"><em>次月预计收支</em>
+    <span>田赋农桑 <b>${fmtDelta(f.income)}</b></span>
+    <span>兵备军饷 <b>${fmtDelta(-f.cost)}</b></span>
+    <span class="tip-net">府库净变动 <b>${fmtDelta(f.net)}</b></span>
+    <span>预计月末 <b>${f.treasury}</b></span>
+    <small>另：私库 ${fmtDelta(30)} → ${f.private}；流民 → ${f.refugees}${f.moraleDrop?'，民心 −2':''}。<br>按当前数值推算，未含未处理事件的后续抉择。</small>
+  </span>`;
+}
+
+/* ============ 渲染 ============ */
+function render(){
+  document.getElementById('portraitBox').innerHTML=portraitSVG();
+  const y=1117+Math.floor((S.month-1)/12), m=(S.month-1)%12+1;
+  document.getElementById('dateBox').innerHTML=`<span class="sub">${ERA(y)} · ${SEASON(m)}</span> <b>${MN[m-1]}</b> <span class="sub">｜ 第 ${S.month} 月 / 36</span>`;
+  document.getElementById('sixBox').innerHTML=SIXN.map(n=>{
+    const v=S.six[n],low=v<=12;
+    return `<div class="row"><span class="nm">${n}</span><div class="bar"><div class="fill ${low?'low':''}" style="width:${Math.min(100,Math.max(0,v))}%"></div></div><span class="vl">${v}</span></div>`;
+  }).join('');
+  document.getElementById('talentBox').innerHTML=TALN.map(n=>`<div class="talent"><span>${n}</span><b>${S.talents[n]}</b></div>`).join('');
+  document.getElementById('resBox').innerHTML=RESN.map(n=>n==='府库'
+    ? `<div class="res res-tip" tabindex="0">府库<b>${S.res[n]}</b>${treasuryTipHTML()}</div>`
+    : `<div class="res">${n}<b>${n==='政绩'?S.res[n]+' / 2000':S.res[n]}</b></div>`).join('');
+  document.getElementById('turnInfo').innerHTML=`第 <b>${S.month}</b> 月 · ${ERA(y)}${MN[m-1]} ｜ 待办 ${S.pending.length} 件`;
+  document.getElementById('apInfo').innerHTML=`行动点 <b>${S.ap}</b> / 2`;
+  renderLists();
+  const dos=document.getElementById('dossier');
+  dos.className='dossier';dos.onclick=null;
+  if(S.over&&currentEnding)renderEnding();
+  else if(current)renderEvent(); else renderIdle();
+  document.getElementById('logBox').innerHTML=S.log.slice(0,30).map(x=>`<div>· ${x}</div>`).join('')||'<div>（尚无记录）</div>';
+}
+
+function renderIdle(){
+  const pending=S.pending.length>0;
+  document.getElementById('dossier').innerHTML=`
+    <div class="ev-cat">${pending?'待 办':'公 余'}</div>
+    <div class="ev-title">${pending?'案牍在前':'堂前暂歇'}</div>
+    <div class="ev-meta">${pending?'本月尚有强制事件未结，请于右侧事件簿点击「处理」。':'本月强制事件已结，可自选事件或转月。'}</div>
+    <div class="ev-text">${pending
+      ? '胥吏捧卷立于阶下，候你裁决。一纸一判，皆关百姓生计、朝堂风评。你不可避，亦无从回头。'
+      : '案头稍静。你可以处理右侧的自选事件，也可以就此转月，让府库与私库按例结算。'}</div>`;
+  document.getElementById('nav').innerHTML=pending?'':
+    '<button class="big" id="nextMonth">转月 · 结算</button>';
+  const nb=document.getElementById('nextMonth');if(nb)nb.onclick=nextMonth;
+}
+
+function tagCls(c,e){if(e&&e.forced&&S.pending.includes(e.id))return 'fix';return c==='固定'?'fix':c==='自由'?'free':'cond'}
+function tagName(e){return (e.forced&&S.pending.includes(e.id))?'固定':e.cat}
+function renderLists(){
+  document.getElementById('pendingList').innerHTML=S.pending.length?S.pending.map(id=>{
+    const e=EVENTS[id];
+    return `<li><b>${e.title}</b><span class="tag ${tagCls(e.cat,e)}">${tagName(e)}</span>${id===current?.id?'<span style="color:#8c3b2e">·当前</span>':`<button class="doit" data-open="${id}">处理</button>`}</li>`;
+  }).join(''):'<li style="color:#5c5443">（无）</li>';
+  const av=availEvents();
+  document.getElementById('availList').innerHTML=av.length?av.map(id=>{
+    const e=EVENTS[id];
+    return `<li><b>${e.title}</b><span class="tag ${tagCls(e.cat,e)}">${tagName(e)}</span><button class="doit" data-open="${id}">选择</button></li>`;
+  }).join(''):'<li style="color:#5c5443">（本月已无可选事件）</li>';
+  document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openEvent(b.dataset.open));
+}
+
+function availEvents(){
+  if(S.over||S.pending.length>0)return [];   // 固定事件未办结前，不开放其他事件
+  const ids=[];
+  const free=['FREE-00','FREE-01','FREE-02','FREE-03'];
+  const cond=['EH-0117-06','COND-01'];
+  if(!S.usedFree&&S.ap>0)free.forEach(id=>{if(!S.pending.includes(id))ids.push(id)});
+  if(!S.usedCond&&S.ap>0)cond.forEach(id=>{const e=EVENTS[id];if(e.check&&e.check(S)&&!S.pending.includes(id))ids.push(id)});
+  if(S.ap>0&&S.rolls.eh07&&!S.doneProbs.includes('EH-0117-07'))ids.push('EH-0117-07');
+  if(S.ap>0&&S.rolls.eh10&&!S.doneProbs.includes('EH-0117-10'))ids.push('EH-0117-10');
+  return ids.filter(id=>!current||id!==current.id);
+}
+
+function openEvent(id){
+  if(S.ap<=0&&!S.pending.includes(id))return;
+  if(S.pending.length>0&&!S.pending.includes(id))return;  // 须先办结本月固定事件
+  current=EVENTS[id];
+  render();
+  document.querySelector('.main').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderEvent(){
+  const e=current;
+  const catName=(e.forced&&S.pending.includes(e.id))||e.cat==='固定'?'固定事件':e.cat==='自由'?'自由事件':e.cat==='条件'?'条件事件':'概率事件';
+  document.getElementById('dossier').innerHTML=`
+    <div class="ev-cat">${catName}</div>
+    <div class="ev-title">${e.title}</div>
+    <div class="ev-meta">${e.meta}</div>
+    <div class="ev-text">「${e.text}」</div>
+    <div class="choices">
+      <div class="hint">请选择一项裁决${e.id==='EH-0117-12'?'（仅列出符合条件者）':''}：</div>
+      ${e.options.map(o=>{
+        const ok=o.condFn?o.condFn(S):true;
+        const effTxt=[o.out].filter(Boolean).join('　');
+        return `<button class="choice" data-opt="${o.k}" ${ok?'':'disabled'}>
+          <span class="k">${o.k}</span>${o.label}${o.cond?` <span class="cond">〔${o.cond}〕</span>`:''}
+          ${effTxt?`<span class="eff">${effTxt}</span>`:''}
+        </button>`;
+      }).join('')}
+    </div>`;
+  document.querySelectorAll('[data-opt]').forEach(b=>b.onclick=()=>choose(b.dataset.opt));
+  document.getElementById('nav').innerHTML=`
+    <button class="big ghost" id="skipEvent">稍后再议</button>
+    ${(S.pending.length===0)?'<button class="big" id="nextMonth">转月 · 结算</button>':''}`;
+  document.getElementById('skipEvent').onclick=()=>{current=null;render()};
+  const nb=document.getElementById('nextMonth');if(nb)nb.onclick=nextMonth;
+}
+
+/* ============ 结算 ============ */
+function applyEffects(str,zj){
+  if(!str)return [];
+  const re=/(民心|清议|圣眷|宦官|军心|朝望|理政|武略|文辞|健康|府库|兵备|私库|农民|政绩)\s*([+\-−＋－])\s*(\d+)/g;
+  const out=[];let m;
+  while((m=re.exec(str))){
+    const n=m[1],d=(m[2]==='+'||m[2]==='＋'?1:-1)*parseInt(m[3]);
+    if(SIXN.includes(n))S.six[n]=Math.max(0,S.six[n]+d);
+    else if(TALN.includes(n))S.talents[n]=Math.max(0,S.talents[n]+d);
+    else if(n==='流民')S.res[n]=Math.max(0,(S.res[n]||0)+d);
+    else S.res[n]=(S.res[n]||0)+d;
+    out.push(`${n}${d>=0?'+':''}${d}`);
+  }
+  if(zj!==undefined&&zj!==0)S.res['政绩']+=zj;
+  return out;
+}
+
+function choose(k){
+  const e=current,o=e.options.find(x=>x.k===k);
+  if(!o||(o.condFn&&!o.condFn(S)))return;
+  const isFree=e.cat==='自由',
+        isProb=e.cat==='概率',
+        isCond=e.cat==='条件';
+  S.ap=Math.max(0,S.ap-1);   // 所有事件（含固定事件）均占用 1 行动点
+  if(isFree)S.usedFree=true;
+  if(isCond)S.usedCond=true;
+  if(isProb)S.doneProbs.push(e.id);
+  const delta=applyEffects(o.eff,o.zj);
+  if(o.flag)S.flags[o.flag]=true;
+  S.hits++;
+  S.log.unshift(`第${S.month}月 ${e.title} · ${o.label}${delta.length?'（'+delta.join(' ')+'）':''}${o.out?' → '+o.out:''}`);
+  const idx=S.pending.indexOf(e.id);if(idx>=0)S.pending.splice(idx,1);
+  current=null;
+
+  // 六维清零判定优先于一切剧情分支
+  const dead=SIXN.find(n=>S.six[n]<=0);
+  if(dead){gameOver(DIM_END[dead]);return;}
+  if(o.end==='retire'){gameOver('e08');return;}
+  if(o.end==='cityfall'){gameOver('e07');return;}
+  if(e.id==='EH-0117-12'){gameOver('e09');return;}
+  render();
+}
+
+function nextMonth(){
+  if(S.pending.length>0){alert('尚有强制事件未处理，不可转月。');return;}
+  const f=monthForecast();
+  S.res['府库']=f.treasury;
+  S.res['私库']=f.private;
+  S.res['流民']=f.refugees;
+  let note='';
+  if(f.moraleDrop){S.six['民心']=Math.max(0,S.six['民心']-2);note=' · 流民≥2000，民心−2';}
+  S.month++;
+  S.ap=2;S.usedFree=false;S.usedCond=false;current=null;
+  const add=id=>addFixed(id);
+  if(S.month===2)add('EH-0117-03');
+  if(S.month===3)add('EH-0117-04');
+  if([4,16,28].includes(S.month))add('EH-0117-08');
+  if(S.month===6)add('EH-0117-09');
+  if([12,24,36].includes(S.month))add('EH-0117-11');
+  if(S.month===36)add('EH-0117-12');
+  rollMonth();
+  S.log.unshift(`第${S.month}月 转月：府库 ${S.res['府库']}，私库 ${S.res['私库']}，流民 ${S.res['流民']}${note}`);
+  const dead=SIXN.find(n=>S.six[n]<=0);
+  if(dead){gameOver(DIM_END[dead]);return;}
+  render();
+}
+
+function unlockEnding(id){
+  try{
+    const arr=JSON.parse(localStorage.getItem(ENDING_UNLOCK_KEY)||'[]');
+    if(!arr.includes(id)){arr.push(id);localStorage.setItem(ENDING_UNLOCK_KEY,JSON.stringify(arr))}
+  }catch(e){}
+}
+function unlockedEndings(){
+  try{return JSON.parse(localStorage.getItem(ENDING_UNLOCK_KEY)||'[]')}catch(e){return []}
+}
+function endingColor(eid){return eid==='e09'?'#4a6b5d':eid==='e08'?'#a8843e':'#8c3b2e'}
+function endingHead(end){
+  return `<div class="ev-cat">终 局 · 结${String(end.num).padStart(2,'0')} · ${end.name}</div>
+    <div class="endtitle" style="color:${endingColor(end.id)}">${end.name}</div>`;
+}
+function endingStats(){
+  return `<div class="ev-meta">结局记录：民心 ${S.six['民心']} · 清议 ${S.six['清议']} · 圣眷 ${S.six['圣眷']} · 宦官 ${S.six['宦官']} · 军心 ${S.six['军心']} · 朝望 ${S.six['朝望']}<br>政绩 ${S.res['政绩']} · 府库 ${S.res['府库']} · 兵备 ${S.res['兵备']} · 私库 ${S.res['私库']} · 农民 ${S.res['农民']} · 流民 ${S.res['流民']}</div>`;
+}
+function renderEnding(){
+  const end=ENDINGS[currentEnding];
+  const dossier=document.getElementById('dossier');
+  const nav=document.getElementById('nav');
+  if(endingStage==='body'){
+    dossier.className='dossier clickable';
+    dossier.innerHTML=`${endingHead(end)}
+      <div class="ev-meta">${end.meta}</div>
+      <div class="endtext">${end.body.map(p=>`<div class="gbody">${p}</div>`).join('')}</div>
+      <div class="ev-hint">点击此页或下方按钮，展读卷末语</div>
+      ${endingStats()}`;
+    dossier.onclick=()=>{endingStage='epi';render()};
+    nav.innerHTML='<button class="big" id="showEpi">展读卷末语</button><button class="big ghost" id="seeEndings">结局图鉴</button>';
+    document.getElementById('showEpi').onclick=()=>{endingStage='epi';render()};
+  }else{
+    dossier.innerHTML=`${endingHead(end)}
+      <div class="epilogue"><h4>卷末语</h4>${end.epilogue.map(p=>`<p>${p}</p>`).join('')}</div>
+      ${endingStats()}`;
+    nav.innerHTML='<button class="big ghost" id="showBody">返回结局正文</button><button class="big" id="again">再来一世</button><button class="big ghost" id="seeEndings">结局图鉴</button>';
+    document.getElementById('showBody').onclick=()=>{endingStage='body';render()};
+    document.getElementById('again').onclick=()=>{S=fresh();mode='play';resetEndingView();rollMonth();render()};
+  }
+  document.getElementById('seeEndings').onclick=()=>document.getElementById('btnEndings').click();
+}
+function gameOver(eid){
+  mode='over';S.over=true;S.ending=eid;current=null;
+  currentEnding=eid;endingStage='body';
+  unlockEnding(eid);
+  render();
+  renderLists();
+}
+
+/* ============ 弹窗 ============ */
+function showModal(html){document.getElementById('modal').innerHTML=html;document.getElementById('mask').classList.add('on')}
+function closeModal(){document.getElementById('mask').classList.remove('on')}
+document.getElementById('mask').onclick=e=>{if(e.target.id==='mask')closeModal()};
+
+document.getElementById('btnDossier').onclick=()=>showModal(`
+  <h3>档案 · 李皋</h3><button class="close" onclick="closeModal()">×</button>
+  <table><tr><th>项目</th><th>内容</th></tr>
+  <tr><td>姓名</td><td>李皋，字尧臣</td></tr>
+  <tr><td>籍贯</td><td>两浙路越州人</td></tr>
+  <tr><td>出身</td><td>政和七年进士及第，首次中第；双亲早亡，无兄弟姐妹，由族中长老抚养</td></tr>
+  <tr><td>官职</td><td>两浙路某县主簿（三年任期）</td></tr>
+  <tr><td>标签</td><td>${Object.keys(S.flags).length?Object.keys(S.flags).join('、'):'（尚无）'}</td></tr>
+  <tr><td>裁决次数</td><td>${S.hits}</td></tr></table>
+  <h3 style="margin-top:16px">天赋</h3>
+  <table><tr><th>天赋</th><th>数值</th></tr>${TALN.map(n=>`<tr><td>${n}</td><td>${S.talents[n]}</td></tr>`).join('')}</table>`);
+
+document.getElementById('btnBag').onclick=()=>showModal(`
+  <h3>行囊</h3><button class="close" onclick="closeModal()">×</button>
+  <table><tr><th>物品</th><th>说明</th></tr>
+  <tr><td>旧藤箱</td><td>母亲手抄《礼记》与数页药方</td></tr>
+  <tr><td>私库银钱</td><td>现有 ${S.res['私库']} 文（每月 +30）</td></tr>
+  <tr><td>官印</td><td>两浙路某县主簿印</td></tr></table>`);
+
+document.getElementById('btnHelp').onclick=()=>showModal(`
+  <h3>规则</h3><button class="close" onclick="closeModal()">×</button>
+  <div style="font-size:16px;line-height:2">
+  1. 每自然年分十二月，每月 2 行动点，当月有效、不累积；每任官 3 年（36 个月）。<br>
+  2. 六维任一清零，立即进入对应失败结局；初始均为 60。<br>
+  3. 转月结算：府库 ← 府库 − 兵备×1 + 农民×0.5；私库 ← 私库 + 30；流民 ← min(流民 + 150, 3000)。<br>
+  4. 流民 ≥ 2000 时，每月民心固定 −2；自由事件、条件事件每月各至多触发一次。<br>
+  5. 花石纲每年四月固定触发，全卷三次；贼寇略城每月 15% 概率命中；第 36 月秩满磨勘定去留。<br>
+  6. 每月固定事件最多两项；满额时厢军暴动、贼寇略城命中本月不插入，次月按原条件重新判定。
+  </div>`);
+
+document.getElementById('btnEndings').onclick=()=>{
+  const got=unlockedEndings();
+  const cards=Object.values(ENDINGS).sort((a,b)=>a.num-b.num).map(end=>{
+    if(!got.includes(end.id))return `<div class="locked">结${String(end.num).padStart(2,'0')} · 未解锁</div>`;
+    return `<details>
+      <summary>结${String(end.num).padStart(2,'0')} ${end.name} <span class="unlocked">〔已达成〕</span></summary>
+      <div class="gmeta">${end.meta}</div>
+      ${end.body.map(p=>`<div class="gbody">${p}</div>`).join('')}
+      <div class="gepi"><h4 style="font-size:15px;color:var(--gold);margin:8px 0 4px">卷末语</h4>${end.epilogue.map(p=>`<p>${p}</p>`).join('')}</div>
+    </details>`;
+  }).join('');
+  showModal(`<h3>结局图鉴 · 九种</h3><button class="close" onclick="closeModal()">×</button>
+    <div class="gallery"><div style="font-size:14px;color:var(--ink2);margin-bottom:10px">已达成 ${got.length} / 9。未解锁结局不显示内容；点击已达成结局可展开正文与卷末语。</div>${cards}</div>`);
+};
+
+/* ============ 三个存档位 ============ */
+const SLOT_KEYS=[1,2,3].map(i=>'xuanhe-save-'+i);
+/* 一次性清除既有存档记录：仅清三个存档位，不触碰结局图鉴解锁记录 */
+(function purgeOldSaves(){
+  const FLAG='xuanhe-save-cleared-v1';
+  try{
+    if(!localStorage.getItem(FLAG)){
+      SLOT_KEYS.forEach(k=>localStorage.removeItem(k));
+      localStorage.setItem(FLAG,'1');
+    }
+  }catch(e){}
+})();
+function slotData(key){
+  try{const d=localStorage.getItem(key);return d?JSON.parse(d):null}catch(e){return null}
+}
+function slotDesc(s){
+  if(!s)return '（空）';
+  const y=1117+Math.floor((s.month-1)/12),m=(s.month-1)%12+1;
+  return `${ERA(y)}${MN[m-1]} · 第 ${s.month} 月 · 裁决 ${s.hits} 次`;
+}
+document.getElementById('btnSave').onclick=()=>{
+  showModal(`<h3>存档 · 选择保存位</h3><button class="close" onclick="closeModal()">×</button>
+  <div style="font-size:16px;line-height:2;margin-bottom:12px">选择存档位，保存当前进度：</div>
+  <table><tr><th>存档位</th><th>现有记录</th><th>操作</th></tr>
+  ${SLOT_KEYS.map((k,i)=>{const s=slotData(k);return `<tr><td>存档位 ${i+1}</td><td>${slotDesc(s)}</td><td><button class="tbtn" data-save="${k}">${s?'覆盖':'保存'}</button></td></tr>`}).join('')}
+  </table>`);
+  document.querySelectorAll('[data-save]').forEach(b=>b.onclick=()=>{
+    try{localStorage.setItem(b.dataset.save,JSON.stringify(S));closeModal();S.log.unshift('（已存档）');render();alert('已保存到存档位 '+b.dataset.save.slice(-1))}catch(e){alert('存档失败：'+e.message)}
+  });
+};
+document.getElementById('btnLoad').onclick=()=>{
+  showModal(`<h3>读档 · 选择存档位</h3><button class="close" onclick="closeModal()">×</button>
+  <div style="font-size:16px;line-height:2;margin-bottom:12px">选择存档位，读取进度：</div>
+  <table><tr><th>存档位</th><th>现有记录</th><th>操作</th></tr>
+  ${SLOT_KEYS.map((k,i)=>{const s=slotData(k);return `<tr><td>存档位 ${i+1}</td><td>${slotDesc(s)}</td><td><button class="tbtn" data-load="${k}" ${s?'':'disabled'}>读取</button></td></tr>`}).join('')}
+  </table>`);
+  document.querySelectorAll('[data-load]').forEach(b=>b.onclick=()=>{
+    if(b.disabled)return;
+    try{const d=localStorage.getItem(b.dataset.load);if(!d){alert('该存档位为空');return}S=JSON.parse(d);mode=S.over?'over':'play';current=null;closeModal();if(S.over&&S.ending){gameOver(S.ending)}else{resetEndingView();render()}alert('已读取存档位 '+b.dataset.load.slice(-1))}catch(e){alert('读档失败：'+e.message)}
+  });
+};
+document.getElementById('btnRestart').onclick=()=>{
+  if(confirm('确定重新开始？当前进度将遗失。')){S=fresh();mode='play';resetEndingView();rollMonth();render()}
+};
+
+/* ============ 启动 ============ */
+S=fresh();rollMonth();render();
+</script>
+</body>
+</html>
